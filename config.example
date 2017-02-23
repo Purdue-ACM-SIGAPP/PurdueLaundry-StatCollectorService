@@ -1,0 +1,8 @@
+[DATABASE]
+Host = XXXXX.com
+Port = XXXXX
+
+# Data source variables. Data is currently being pulled from the Machine api so it is labeled Machines
+[MACHINES]
+Host = XXXXX.com
+Port = XXXXX
