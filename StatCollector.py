@@ -5,14 +5,26 @@
 """
 import configparser
 import urllib.request
+import psycopg2
 
 config = configparser.ConfigParser()
 config.read('config')
-DATABASE_URL = config['DATABASE']['Host']
 
-MACHINE_URL = config['MACHINES']['Host']
 
-def get_stats() -> dict:
+def create_db_cursor():
+    connection = connect_database()
+    return connection.cursor()
+
+def connect_database():
+    db_config = dict(config['DATABASE'])
+    connect_str = """host=%{host}s
+                        port=%{port}s
+                        user=%{user}s
+                        password=%{password}s
+                        dbname=%{name}s""" % db_config
+    return psycopg2.connect(connect_str)
+
+def get_stats(cursor) -> dict:
     """Function to retrieve stats from Machine Api
     Args:
         None
@@ -25,6 +37,7 @@ def get_stats() -> dict:
 def store_stats(stats: dict) -> bool:
     """Function to send stats from Machine Api to database
     Args:
+        cursor (obj): Postgres cursor that allows us to make queries to the database
         stats (dict): dictionary of stats to be sent to db
     Returns:
         bool:  Returns true if request is a success, false if unsuccessful
@@ -33,7 +46,9 @@ def store_stats(stats: dict) -> bool:
 
 def main():
     """Main function that will be run every minute based on cron job"""
-    store_stats(get_stats)
+    new_stats = get_stats()
+    cursor = create_db_cursor()
+    store_stats(cursor, new_stats)
     print("done")
 
 if __name__ == "__main__":
