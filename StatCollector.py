@@ -5,6 +5,7 @@
 """
 import configparser
 import urllib.request
+import json
 import psycopg2
 
 config = configparser.ConfigParser()
@@ -26,12 +27,16 @@ def connect_database() -> any:
 
 def get_stats() -> dict:
     """Function to retrieve stats from Machine Api
-    Args:
+    Args:jj
         None
     Returns:
         dict: dictionary of data from machine api
     """
+    with urllib.request.urlopen(config['MACHINES']['HOST'] + "/Laundry/location/all") as response:
+        data = json.loads(response.read())
+        return data
     return {}
+
 
 
 def store_stats(cursor: any, stats: dict) -> bool:
@@ -48,7 +53,6 @@ def main():
     """Main function that will be run every minute based on cron job"""
     new_stats = get_stats()
     cursor = create_db_cursor()
-    store_stats(cursor, new_stats)
     print("done")
 
 if __name__ == "__main__":
