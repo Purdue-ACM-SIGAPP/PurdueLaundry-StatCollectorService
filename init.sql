@@ -5,6 +5,7 @@ CREATE TABLE Machine (
   PRIMARY KEY (Name, Dorm)
 );
 
+DROP TABLE IF EXISTS MachineStateLog;
 CREATE TABLE MachineStateLog (
   MachineName varchar NOT NULL,
   MachineDorm varchar NOT NULL,
