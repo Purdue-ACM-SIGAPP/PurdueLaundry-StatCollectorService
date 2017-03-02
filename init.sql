@@ -1,11 +1,11 @@
-DROP TABLE Machine;
+DROP TABLE IF EXISTS Machine;
 CREATE TABLE Machine (
   Name varchar NOT NULL,
   Dorm varchar NOT NULL,
   PRIMARY KEY (Name, Dorm)
 );
 
-DROP TABLE MachineStateLog;
+DROP TABLE IF EXISTS MachineStateLog;
 CREATE TABLE MachineStateLog (
   MachineName varchar NOT NULL,
   MachineDorm varchar NOT NULL,
