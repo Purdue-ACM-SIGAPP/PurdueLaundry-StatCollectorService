@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS Machine;
+DROP TABLE IF EXISTS Machine CASCADE;
 CREATE TABLE Machine (
   Name varchar NOT NULL,
   Dorm varchar NOT NULL,
