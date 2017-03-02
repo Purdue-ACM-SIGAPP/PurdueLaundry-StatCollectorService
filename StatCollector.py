@@ -11,30 +11,30 @@ config = configparser.ConfigParser()
 config.read('config')
 
 
-def create_db_cursor():
+def create_db_cursor() -> any:
     connection = connect_database()
     return connection.cursor()
 
-def connect_database():
+def connect_database() -> any:
     db_config = dict(config['DATABASE'])
-    connect_str = """host=%{host}s
-                        port=%{port}s
-                        user=%{user}s
-                        password=%{password}s
-                        dbname=%{name}s""" % db_config
+    connect_str = """host=%(host)s
+                        port=%(port)s
+                        user=%(user)s
+                        password=%(password)s
+                        dbname=%(name)s""" % db_config
     return psycopg2.connect(connect_str)
 
-def get_stats(cursor) -> dict:
+def get_stats() -> dict:
     """Function to retrieve stats from Machine Api
     Args:
         None
     Returns:
-        dict: dictionary of data from database
+        dict: dictionary of data from machine api
     """
     return {}
 
 
-def store_stats(stats: dict) -> bool:
+def store_stats(cursor: any, stats: dict) -> bool:
     """Function to send stats from Machine Api to database
     Args:
         cursor (obj): Postgres cursor that allows us to make queries to the database
