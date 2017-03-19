@@ -40,7 +40,7 @@ def get_stats() -> dict:
 
 
 def store_stats(cursor: any, stats: dict) -> bool:
-    """Function to send stats from Machine Api to database
+    """Function to send stats from Machine Api to Machine Stats Api
     Args:
         cursor (obj): Postgres cursor that allows us to make queries to the database
         stats (dict): dictionary of stats to be sent to db
